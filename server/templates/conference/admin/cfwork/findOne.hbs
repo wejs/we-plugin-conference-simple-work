@@ -1,0 +1,51 @@
+<article class="full">
+  <header>
+    <div class="article-meta">
+      {{t 'Updated at'}} <time datetime="{{record.createdAt}}"><strong>{{we-date record.updatedAt}}</strong></time>
+      {{#each record.categories}} {{t 'category'}}: <strong>{{this}}</strong>{{/each}}
+    </div>
+  </header>
+  {{#with record}}
+  <div class="article-content">
+
+    <div class="article-field">
+      <p><strong>{{t 'form-cfwork-author'}}:</strong> {{author}}</p>
+    </div>
+    <div class="article-field">
+      <p><strong>{{t 'form-cfwork-organization'}}:</strong> {{organization}}</p>
+    </div>
+    <br>
+    <div class="article-field">
+      <h4>{{t 'form-cfwork-partners'}}</h4>
+      <p>{{{partners}}}</p>
+    </div>
+    <br>
+    <div class="article-field">
+      <h4>{{t 'form-cfwork-objective'}}</h4>
+      <p>{{{objective}}}</p>
+    </div>
+    <br>
+    <div class="article-field">
+      <h4>{{t 'form-cfwork-context'}}</h4>
+      <p>{{{context}}}</p>
+    </div>
+    <br>
+    <div class="article-field">
+      <h4>{{t 'form-cfwork-achievements'}}</h4>
+      <p>{{{achievements}}}</p>
+    </div>
+    <br>
+    <div class="article-field">
+      <h4>{{t 'form-cfwork-prospects'}}</h4>
+      <p>{{{prospects}}}</p>
+    </div>
+    <br>
+  </div>
+  {{/with}}
+  <footer>
+    <div class="actions">
+      {{we-action-edit-btn model record req record.conferenceId record.creatorId record.id}}
+      {{we-action-delete-btn model record req record.conferenceId record.creatorId record.id}}
+    </div>
+  </footer>
+</article>
