@@ -58,34 +58,23 @@ module.exports = {
             ], we
           ),
         };
-
-        we.utils.async.parallel([
-          function notifyCreator(done) {
-            var options = {
-              email: req.user.email,
-              subject: req.__('conference.cfwork.success.email') + ' - ' + res.locals.conference.abbreviation,
-              from: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
-            };
-            we.email.sendEmail('CFNewWorkCreatorSuccess', options, templateVariables, function (err , emailResp){
-              if (err) return done(err);
-              return done(null, emailResp);
-            });
-          },
-          function notifyCFAdmin(done) {
-            var options = {
-              email: res.locals.conference.registrationManagerEmail,
-              subject: req.__('conference.cfwork.success.admin.email') + ' - ' + res.locals.conference.abbreviation,
-              from: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
-            };
-            we.email.sendEmail('CFNewWorkAdminSuccess', options, templateVariables, function (err, emailResp){
-              if (err) return done(err);
-              return done(null, emailResp);
-            });
-          },
-        ], function(err){
-          if (err) return res.serverError(err);
-          res.created();
+        // - send emails
+        we.email.sendEmail('CFNewWorkCreatorSuccess', {
+          email: req.user.email,
+          subject: req.__('conference.cfwork.success.email') + ' - ' + res.locals.conference.abbreviation,
+          from: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
+        }, templateVariables, function (err , emailResp){
+          if (err) we.log.error(err, emailResp);
         });
+        we.email.sendEmail('CFNewWorkAdminSuccess', {
+          email: res.locals.conference.registrationManagerEmail,
+          subject: req.__('conference.cfwork.success.admin.email') + ' - ' + res.locals.conference.abbreviation,
+          from: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
+        }, templateVariables, function (err, emailResp) {
+          if (err) return we.log.error(err, emailResp);
+        });
+        // continue with response ...
+        res.created();
       }).catch(res.queryError);
     } else {
       res.locals.record = req.query;
@@ -142,15 +131,15 @@ module.exports = {
           ),
         };
 
-        var options = {
+        we.email.sendEmail('CFAcceptWorkCreator', {
           email: req.user.email,
           subject: req.__('conference.cfwork.accepted.email') + ' - ' + res.locals.conference.abbreviation,
           from: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
-        };
-        we.email.sendEmail('CFAcceptWorkCreator', options, templateVariables, function (err){
-          if (err) return res.serverError(err);
-          return res.updated();
+        }, templateVariables, function (err, emailResp){
+          if (err) we.log.error(err, emailResp);
         });
+
+        res.updated();
       }).catch(res.queryError);
 
     }).catch(res.queryError);
