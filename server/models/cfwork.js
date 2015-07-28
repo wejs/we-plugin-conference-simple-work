@@ -61,7 +61,10 @@ module.exports = function Model(we) {
       creator: { type: 'belongsTo', model: 'user' }
     },
     options: {
-      titleField: 'title'
+      titleField: 'title',
+      fileFields: {
+        file: { formFieldMultiple: false }
+      }
     }
   }
 
