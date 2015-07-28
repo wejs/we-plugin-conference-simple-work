@@ -62,14 +62,15 @@ module.exports = {
         we.email.sendEmail('CFNewWorkCreatorSuccess', {
           email: req.user.email,
           subject: req.__('conference.cfwork.success.email') + ' - ' + res.locals.conference.abbreviation,
-          from: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
+          replyTo: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
         }, templateVariables, function (err , emailResp){
           if (err) we.log.error(err, emailResp);
         });
+
         we.email.sendEmail('CFNewWorkAdminSuccess', {
           email: res.locals.conference.registrationManagerEmail,
           subject: req.__('conference.cfwork.success.admin.email') + ' - ' + res.locals.conference.abbreviation,
-          from: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
+          replyTo: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
         }, templateVariables, function (err, emailResp) {
           if (err) return we.log.error(err, emailResp);
         });
@@ -134,7 +135,7 @@ module.exports = {
         we.email.sendEmail('CFAcceptWorkCreator', {
           email: req.user.email,
           subject: req.__('conference.cfwork.accepted.email') + ' - ' + res.locals.conference.abbreviation,
-          from: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
+          replyTo: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
         }, templateVariables, function (err, emailResp){
           if (err) we.log.error(err, emailResp);
         });
