@@ -30,11 +30,13 @@ module.exports = function Model(we) {
         type: we.db.Sequelize.TEXT,
         formFieldType: 'html',
         formFieldHeight: 150,
+        allowNull: false
       },
       achievements: {
         type: we.db.Sequelize.TEXT,
         formFieldType: 'html',
         formFieldHeight: 200,
+        allowNull: false
       },
       prospects: {
         type: we.db.Sequelize.TEXT,
@@ -63,7 +65,10 @@ module.exports = function Model(we) {
     options: {
       titleField: 'title',
       fileFields: {
-        file: { formFieldMultiple: false }
+        file: {
+          formFieldMultiple: false,
+          allowNull: false
+        }
       }
     }
   }
