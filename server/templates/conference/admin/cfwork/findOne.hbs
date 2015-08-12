@@ -40,6 +40,16 @@
       <p>{{{prospects}}}</p>
     </div>
     <br>
+    <div class="article-field">
+      <h4>{{t 'form-cfwork-file'}}</h4>
+      <p>
+        {{#each file}}
+          <a href="{{urls.original}}" target="_blank">{{originalname}}</a>
+          <br>
+        {{/each}}
+      </p>
+    </div>
+    <br>
   </div>
   {{/with}}
   <footer>
