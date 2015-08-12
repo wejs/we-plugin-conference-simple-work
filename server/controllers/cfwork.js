@@ -7,7 +7,8 @@ module.exports = {
       res.locals.query.where.status = 'accepted';
     }
 
-    return res.locals.Model.findAndCountAll(res.locals.query)
+    return res.locals.Model
+    .findAndCountAll(res.locals.query)
     .then(function (record) {
       if (!record) return next();
 
