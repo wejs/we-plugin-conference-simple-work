@@ -49,6 +49,16 @@ module.exports = function loadPlugin(projectPath, Plugin) {
       template      : 'cfwork/accepted',
       onlyAccepted  : true
     },
+
+    'get /conference/:conferenceId([0-9]+)/admin/cfwork.csv': {
+      layoutName    : 'conferenceAdmin',
+      controller    : 'cfwork',
+      action        : 'exportAll',
+      model         : 'cfwork',
+      permission    : 'manage_conference',
+      responseType  : 'cvs'
+    },
+
     'get /conference/:conferenceId([0-9]+)/admin/cfwork/:cfworkId([0-9]+)/change-status/:status': {
       name          :  'cfwork.changeStatus',
       titleHandler  : 'i18n',

@@ -145,5 +145,53 @@ module.exports = {
       }).catch(res.queryError);
 
     }).catch(res.queryError);
+  },
+  exportAll: function exportAll(req, res) {
+    if (!res.locals.conference) return res.notFound();
+
+    res.locals.Model.findAll({
+      where: { conferenceId: res.locals.conference.id },
+      include: [{ all: true, required: false }]
+    }).then(function (r) {
+      if (!r) return res.notFound();
+
+      var cfworks = r.map(function (r){
+        r.displayName = r.creator.displayName;
+        if (r.file[0]) {
+          r.fileUrl = r.file[0].urls.original
+        }
+
+        return r;
+      });
+
+      req.we.csv.stringify(cfworks, {
+        header: true,
+        quotedString: true,
+        columns: {
+          id: 'id',
+          title: 'title',
+          author: 'author',
+          organization: 'organization',
+          partners: 'partners',
+          objective: 'objective',
+          context: 'context',
+          achievements: 'achievements',
+          prospects: 'prospects',
+          status: 'status',
+          conferenceId: 'conferenceId',
+          displayName: 'displayName',
+          fileUrl: 'fileUrl'
+        }
+      }, function (err, data) {
+        if (err) return res.serverError(err);
+        var fileName = 'cfworks-export-' +
+          res.locals.conference.id + '-'+
+          new Date().getTime() + '.csv';
+
+        res.setHeader('Content-disposition', 'attachment; filename='+fileName);
+        res.set('Content-Type', 'application/octet-stream');
+        res.send(data);
+      });
+    }).catch(res.queryError);
   }
 };
