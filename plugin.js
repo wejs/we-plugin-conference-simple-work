@@ -5,12 +5,6 @@
  */
 module.exports = function loadPlugin(projectPath, Plugin) {
   var plugin = new Plugin(__dirname);
-  // set plugin configs
-  // plugin.setConfigs({
-  // });
-  // ser plugin routes
-  // plugin.setRoutes({
-  // });
 
   plugin.setResource({
     parent: 'conference',
@@ -21,20 +15,10 @@ module.exports = function loadPlugin(projectPath, Plugin) {
   plugin.setResource({
     parent: 'conference',
     namespace: '/admin',
-
     name: 'cfwork',
     namePrefix: 'admin.',
-
     templateFolderPrefix: 'conference/admin/',
-    findLayout: 'conferenceAdmin',
-    findOneLayout: 'conferenceAdmin',
-    editLayout: 'conferenceAdmin',
-    createLayout: 'conferenceAdmin',
-    deleteLayout: 'conferenceAdmin',
-    findPermission: 'manage_conference',
-    editPermission: 'manage_conference',
-    deletePermission: 'manage_conference',
-    createPermisson: 'manage_conference'
+    layoutName: 'conferenceAdmin'
   });
 
   plugin.setRoutes({
