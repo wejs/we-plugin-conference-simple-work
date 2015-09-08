@@ -1,4 +1,4 @@
-# we-plugin-conference-simple-work
+# we-plugin-event-simple-work
 
 > [write something about your plugin here]
 

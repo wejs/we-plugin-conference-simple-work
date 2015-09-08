@@ -49,15 +49,15 @@ module.exports = function Model(we) {
         defaultValue: 'send',
         formFieldType: null,
         fieldOptions: {
-          send: 'conference.cfsession.status.send',
-          'in_review': 'conference.cfsession.status.in_review',
-          'need_update': 'conference.cfsession.status.need_update',
-          accepted: 'conference.cfsession.status.accepted',
-          discarded: 'conference.cfsession.status.discarded'
+          send: 'event.cfsession.status.send',
+          'in_review': 'event.cfsession.status.in_review',
+          'need_update': 'event.cfsession.status.need_update',
+          accepted: 'event.cfsession.status.accepted',
+          discarded: 'event.cfsession.status.discarded'
         }
       },
 
-      conferenceId: { type: we.db.Sequelize.BIGINT, formFieldType: null }
+      eventId: { type: we.db.Sequelize.BIGINT, formFieldType: null }
     },
     associations: {
       creator: { type: 'belongsTo', model: 'user' }

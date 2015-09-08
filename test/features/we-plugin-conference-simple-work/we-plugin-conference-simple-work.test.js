@@ -8,7 +8,7 @@ var http;
 var we;
 var agent;
 
-describe('we-plugin-conference-simple-workFeature', function() {
+describe('we-plugin-event-simple-workFeature', function() {
   var salvedUser, salvedUserPassword, authenticatedRequest;
 
   before(function (done) {

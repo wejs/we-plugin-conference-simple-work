@@ -39,7 +39,7 @@ module.exports = {
         var user = req.user.toJSON();
         var templateVariables = {
           user: user,
-          conference: res.locals.conference,
+          event: res.locals.event,
           cfwork: record,
           site: {
             name: we.config.appName,
@@ -47,14 +47,14 @@ module.exports = {
           },
           cfworkUrl: we.router.urlTo(
             'cfwork.findOne', [
-              res.locals.conference.id,
+              res.locals.event.id,
               record.creatorId,
               record.id
             ], we
           ),
           cfworkAdminUrl: we.router.urlTo(
             'admin.cfwork.findOne', [
-              res.locals.conference.id,
+              res.locals.event.id,
               record.id
             ], we
           ),
@@ -62,16 +62,16 @@ module.exports = {
         // - send emails
         we.email.sendEmail('CFNewWorkCreatorSuccess', {
           email: req.user.email,
-          subject: req.__('conference.cfwork.success.email') + ' - ' + res.locals.conference.abbreviation,
-          replyTo: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
+          subject: req.__('event.cfwork.success.email') + ' - ' + res.locals.event.abbreviation,
+          replyTo: res.locals.event.title + ' <'+res.locals.event.email+'>'
         }, templateVariables, function (err , emailResp){
           if (err) we.log.error(err, emailResp);
         });
 
         we.email.sendEmail('CFNewWorkAdminSuccess', {
-          email: res.locals.conference.registrationManagerEmail,
-          subject: req.__('conference.cfwork.success.admin.email') + ' - ' + res.locals.conference.abbreviation,
-          replyTo: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
+          email: res.locals.event.registrationManagerEmail,
+          subject: req.__('event.cfwork.success.admin.email') + ' - ' + res.locals.event.abbreviation,
+          replyTo: res.locals.event.title + ' <'+res.locals.event.email+'>'
         }, templateVariables, function (err, emailResp) {
           if (err) return we.log.error(err, emailResp);
         });
@@ -109,25 +109,25 @@ module.exports = {
         var user = req.user.toJSON();
         var templateVariables = {
           user: user,
-          conference: res.locals.conference,
+          event: res.locals.event,
           cfwork: record,
           site: {
             name: we.config.appName,
             url: we.config.hostname
           },
           cfworksUrl: we.config.hostname + we.router.urlTo(
-            'cfwork.accepted', [ res.locals.conference.id ], we
+            'cfwork.accepted', [ res.locals.event.id ], we
           ),
           cfworkUrl: we.config.hostname + we.router.urlTo(
             'cfwork.findOne', [
-              res.locals.conference.id,
+              res.locals.event.id,
               record.creatorId,
               record.id
             ], we
           ),
           cfworkAdminUrl: we.config.hostname + we.router.urlTo(
             'admin.cfwork.findOne', [
-              res.locals.conference.id,
+              res.locals.event.id,
               record.id
             ], we
           ),
@@ -135,8 +135,8 @@ module.exports = {
 
         we.email.sendEmail('CFAcceptWorkCreator', {
           email: req.user.email,
-          subject: req.__('conference.cfwork.accepted.email') + ' - ' + res.locals.conference.abbreviation,
-          replyTo: res.locals.conference.title + ' <'+res.locals.conference.email+'>'
+          subject: req.__('event.cfwork.accepted.email') + ' - ' + res.locals.event.abbreviation,
+          replyTo: res.locals.event.title + ' <'+res.locals.event.email+'>'
         }, templateVariables, function (err, emailResp){
           if (err) we.log.error(err, emailResp);
         });
@@ -147,10 +147,10 @@ module.exports = {
     }).catch(res.queryError);
   },
   exportAll: function exportAll(req, res) {
-    if (!res.locals.conference) return res.notFound();
+    if (!res.locals.event) return res.notFound();
 
     res.locals.Model.findAll({
-      where: { conferenceId: res.locals.conference.id },
+      where: { eventId: res.locals.event.id },
       include: [{ all: true, required: false }]
     }).then(function (r) {
       if (!r) return res.notFound();
@@ -178,14 +178,14 @@ module.exports = {
           achievements: 'achievements',
           prospects: 'prospects',
           status: 'status',
-          conferenceId: 'conferenceId',
+          eventId: 'eventId',
           displayName: 'displayName',
           fileUrl: 'fileUrl'
         }
       }, function (err, data) {
         if (err) return res.serverError(err);
         var fileName = 'cfworks-export-' +
-          res.locals.conference.id + '-'+
+          res.locals.event.id + '-'+
           new Date().getTime() + '.csv';
 
         res.setHeader('Content-disposition', 'attachment; filename='+fileName);

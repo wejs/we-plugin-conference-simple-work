@@ -12,11 +12,11 @@
         <td>{{title}}</td>
         <td>{{author}}</td>
         <td>
-          {{we-action-view-btn 'cfwork' this ../req conferenceId creatorId id }}
+          {{we-action-view-btn 'cfwork' this ../req eventId creatorId id }}
         </td>
       </tr>
     {{else}}
-      <tr><td colspan="4" class="text-center">{{t 'conference.cfwork.accepted.empty'}}</td></tr>
+      <tr><td colspan="4" class="text-center">{{t 'event.cfwork.accepted.empty'}}</td></tr>
     {{/each}}
   </tbody>
   <tfoot>

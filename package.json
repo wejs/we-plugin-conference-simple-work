@@ -1,6 +1,6 @@
 
 {
-  "name": "we-plugin-conference-simple-work",
+  "name": "we-plugin-event-simple-work",
   "description": "We.js plugin for add simple online registered user works",
   "version": "0.3.8",
   "main": "lib/index.js",
@@ -27,6 +27,6 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:wejs/we-plugin-conference-simple-work"
+    "url": "git@github.com:wejs/we-plugin-event-simple-work"
   }
 }
