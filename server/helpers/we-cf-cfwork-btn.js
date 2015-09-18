@@ -17,11 +17,13 @@ module.exports = function(we) {
     var ctx = {
       btnClass: (opts.hash.class || ' btn btn-default ') + ' btn-cfwork ',
       href: '/login?redirectTo=/event/'+opts.hash.event.id,
-      text: __('cfwork.btn.text')
+      text: __('cfwork.btn.text'),
+      event: opts.hash.event,
+      userId: opts.hash.userId
     };
 
     if (opts.hash.userId)
-      ctx.href =  '/event/'+event.id+'/user/'+opts.hash.userId+'/cfwork';
+      ctx.href =  '/event/'+opts.hash.event.id+'/user/'+opts.hash.userId+'/cfwork';
 
     return new we.hbs.SafeString(we.view.renderTemplate(
       'cfwork/we-cf-cfwork-btn',
