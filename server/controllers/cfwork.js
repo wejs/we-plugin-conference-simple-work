@@ -7,6 +7,8 @@ module.exports = {
       res.locals.query.where.status = 'accepted';
     }
 
+    res.locals.query.where.eventId = res.locals.event.id;
+
     return res.locals.Model
     .findAndCountAll(res.locals.query)
     .then(function (record) {
@@ -22,7 +24,9 @@ module.exports = {
     if (!req.isAuthenticated()) return res.forbidden();
     if (!res.locals.record) res.locals.record = {};
 
-    var we = req.getWe();
+    var we = req.we;
+
+    req.body.eventId = res.locals.event.id;
 
     if (req.method === 'POST') {
       if (req.isAuthenticated()) req.body.creatorId = req.user.id;
@@ -86,8 +90,11 @@ module.exports = {
   changeStatus: function changeStatus(req, res) {
     var we = req.getWe();
 
-    we.db.models.cfwork.findById(req.params.cfworkId)
-    .then(function (record){
+    we.db.models.cfwork.findOne({
+      where: {
+        id: req.params.cfworkId, eventId: res.locals.event.id
+      }
+    }).then(function (record){
       if (!record) return res.notFound();
 
       res.locals.record = record;
