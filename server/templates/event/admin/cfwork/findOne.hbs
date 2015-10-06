@@ -1,11 +1,11 @@
 <article class="full">
   <header>
     <div class="article-meta">
-      {{t 'Updated at'}} <time datetime="{{record.createdAt}}"><strong>{{we-date record.updatedAt}}</strong></time>
-      {{#each record.categories}} {{t 'category'}}: <strong>{{this}}</strong>{{/each}}
+      {{t 'Updated at'}} <time datetime="{{data.createdAt}}"><strong>{{we-date data.updatedAt}}</strong></time>
+      {{#each data.categories}} {{t 'category'}}: <strong>{{this}}</strong>{{/each}}
     </div>
   </header>
-  {{#with record}}
+  {{#with data}}
   <div class="article-content">
 
     <div class="article-field">
@@ -54,8 +54,8 @@
   {{/with}}
   <footer>
     <div class="actions">
-      {{we-action-edit-btn model record req record.eventId record.creatorId record.id}}
-      {{we-action-delete-btn model record req record.eventId record.creatorId record.id}}
+      {{we-action-edit-btn model data req data.eventId data.creatorId data.id}}
+      {{we-action-delete-btn model data req data.eventId data.creatorId data.id}}
     </div>
   </footer>
 </article>

@@ -15,14 +15,14 @@ module.exports = {
       if (!record) return next();
 
       res.locals.metadata.count = record.count;
-      res.locals.record = record.rows;
+      res.locals.data = record.rows;
 
       return res.ok();
     });
   },
   create: function create(req, res) {
     if (!req.isAuthenticated()) return res.forbidden();
-    if (!res.locals.record) res.locals.record = {};
+    if (!res.locals.data) res.locals.data = {};
 
     var we = req.we;
 
@@ -31,14 +31,14 @@ module.exports = {
     if (req.method === 'POST') {
       if (req.isAuthenticated()) req.body.creatorId = req.user.id;
       // set temp record for use in validation errors
-      res.locals.record = req.query;
+      res.locals.data = req.query;
       we.utils._.merge(res.locals.record, req.body);
 
       req.body.status = 'send';
 
       return res.locals.Model.create(req.body)
       .then(function (record) {
-        res.locals.record = record;
+        res.locals.data = record;
 
         var user = req.user.toJSON();
         var templateVariables = {
@@ -83,7 +83,7 @@ module.exports = {
         res.created();
       }).catch(res.queryError);
     } else {
-      res.locals.record = req.query;
+      res.locals.data = req.query;
       res.ok();
     }
   },
@@ -97,7 +97,7 @@ module.exports = {
     }).then(function (record){
       if (!record) return res.notFound();
 
-      res.locals.record = record;
+      res.locals.data = record;
 
       req.paramsArray.push(record.id);
 
