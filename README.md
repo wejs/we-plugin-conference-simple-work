@@ -1,14 +1,31 @@
-# we-plugin-event-simple-work
+# We.js simple event work submission
 
-> [write something about your plugin here]
+> Add one simple model for allow users to send works for one event
 
-# API
+## Urls
 
+### Admin page:
+
+```
+/event/:eventId/admin/cfwork
+```
+
+### Accepted works:
+
+```
+/event/:eventId([0-9]+)/works
+```
+
+### User works and send works API
+
+```
+/event/:eventId([0-9]+)/user/:userId([0-9]+)/cfwork
+```
 
 ## Links
 
 > * We.js site: http://wejs.org
 
-#Copyright and license
+## License
 
-Copyright 2013-2015 [your name] <[your email@email]> and contributors , under [the MIT license](LICENSE).
+under [the MIT license](https://github.com/wejs/we/blob/master/LICENSE.md).
