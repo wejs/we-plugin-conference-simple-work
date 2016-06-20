@@ -3,30 +3,17 @@
   "name": "we-plugin-event-simple-work",
   "description": "We.js plugin for add simple online registered user works",
   "version": "0.3.13",
-  "main": "lib/index.js",
-  "scripts": {
-    "test": "NODE_ENV=test LOG_LV=info ./node_modules/.bin/mocha test/bootstrap.js test/**/*.test.js",
-    "prepublish": "npm prune"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "fs-extra": "^0.18.2",
-    "mocha": "^2.2.5",
-    "rimraf": "^2.3.4",
-    "supertest": "^1.0.1",
-    "we-core": "^0.3.51",
-    "we-plugin-form": "^0.3.1",
-    "we-theme-admin-default": "^0.3.4",
-    "we-theme-site-wejs": "^0.3.13",
-    "we-test-tools": "^0.3.5"
-  },
-  "publishConfig": {
-    "registry": "http://registry.npmjs.org"
-  },
-  "author": "Alberto Souza <alberto.souza.dev@gmail.com>",
+  "main": "plugin.js",
+  "scripts": {},
+  "author": "Alberto Souza <contato@albertosouza.net>",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:wejs/we-plugin-event-simple-work"
+  "repository": "wejs/we-plugin-event-simple-work",
+  "keywords": [
+    "wejs-plugin"
+  ],
+  "wejs": {
+    "dependencies": {
+      "we-plugin-event": true
+    }
   }
 }

@@ -1,6 +1,12 @@
 # We.js simple event work submission
 
-> Add one simple model for allow users to send works for one event
+Add one simple model for allow users to send works for one event
+
+## Installation
+
+```sh
+we i we-plugin-event-simple-work
+```
 
 ## Urls
 
@@ -24,8 +30,9 @@
 
 ## Links
 
-> * We.js site: http://wejs.org
+- We.js site: http://wejs.org
 
 ## License
 
-under [the MIT license](https://github.com/wejs/we/blob/master/LICENSE.md).
+Under [the MIT license](https://github.com/wejs/we/blob/master/LICENSE.md).
+
