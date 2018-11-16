@@ -1,5 +1,5 @@
 module.exports = {
-  find: function findAll(req, res, next) {
+  find(req, res, next) {
     if (req.params.userId) {
       if (!req.isAuthenticated()) return res.forbidden();
       res.locals.query.where.creatorId = req.user.id;
@@ -11,20 +11,21 @@ module.exports = {
 
     return res.locals.Model
     .findAndCountAll(res.locals.query)
-    .then(function (record) {
+    .then(function afterFindAndContAll(record) {
       if (!record) return next();
 
       res.locals.metadata.count = record.count;
       res.locals.data = record.rows;
 
       return res.ok();
-    });
+    })
+    .catch(res.queryError);
   },
-  create: function create(req, res) {
+  create(req, res) {
     if (!req.isAuthenticated()) return res.forbidden();
     if (!res.locals.data) res.locals.data = {};
 
-    var we = req.we;
+    const we = req.we;
 
     req.body.eventId = res.locals.event.id;
 
@@ -36,12 +37,13 @@ module.exports = {
 
       req.body.status = 'send';
 
-      return res.locals.Model.create(req.body)
-      .then(function (record) {
+      return res.locals.Model
+      .create(req.body)
+      .then(function afterCreate(record) {
         res.locals.data = record;
 
-        var user = req.user.toJSON();
-        var templateVariables = {
+        let user = req.user.toJSON();
+        let templateVariables = {
           user: user,
           event: res.locals.event,
           cfwork: record,
@@ -80,21 +82,25 @@ module.exports = {
           if (err) return we.log.error(err, emailResp);
         });
         // continue with response ...
-        res.created();
-      }).catch(res.queryError);
+        return res.created();
+      })
+      .catch(res.queryError);
     } else {
       res.locals.data = req.query;
       res.ok();
     }
   },
-  changeStatus: function changeStatus(req, res) {
-    var we = req.getWe();
+  changeStatus(req, res) {
+    const we = req.getWe();
 
-    we.db.models.cfwork.findOne({
+    we.db.models.cfwork
+    .findOne({
       where: {
-        id: req.params.cfworkId, eventId: res.locals.event.id
+        id: req.params.cfworkId,
+        eventId: res.locals.event.id
       }
-    }).then(function (record){
+    })
+    .then(function (record) {
       if (!record) return res.notFound();
 
       res.locals.data = record;
@@ -108,13 +114,14 @@ module.exports = {
       if (record.status == req.params.status)
         return res.redirect(res.locals.redirectTo);
 
-      record.updateAttributes({
+      return record.updateAttributes({
         status: req.params.status
-      }).then(function() {
+      })
+      .then(function() {
         if (req.params.status !='accepted') return res.updated();
 
-        var user = req.user.toJSON();
-        var templateVariables = {
+        let user = req.user.toJSON();
+        let templateVariables = {
           user: user,
           event: res.locals.event,
           cfwork: record,
@@ -149,20 +156,22 @@ module.exports = {
         });
 
         res.updated();
-      }).catch(res.queryError);
-
-    }).catch(res.queryError);
+      })
+    })
+    .catch(res.queryError);
   },
-  exportAll: function exportAll(req, res) {
+  exportAll(req, res) {
     if (!res.locals.event) return res.notFound();
 
-    res.locals.Model.findAll({
+    res.locals.Model
+    .findAll({
       where: { eventId: res.locals.event.id },
       include: [{ all: true, required: false }]
-    }).then(function (r) {
+    })
+    .then(function (r) {
       if (!r) return res.notFound();
 
-      var cfworks = r.map(function (r){
+      let cfworks = r.map(function (r) {
         r.displayName = r.creator.displayName;
         if (r.file[0]) {
           r.fileUrl = r.file[0].urls.original
@@ -191,7 +200,7 @@ module.exports = {
         }
       }, function (err, data) {
         if (err) return res.serverError(err);
-        var fileName = 'cfworks-export-' +
+        let fileName = 'cfworks-export-' +
           res.locals.event.id + '-'+
           new Date().getTime() + '.csv';
 
@@ -199,6 +208,7 @@ module.exports = {
         res.set('Content-Type', 'application/octet-stream');
         res.send(data);
       });
-    }).catch(res.queryError);
+    })
+    .catch(res.queryError);
   }
 };

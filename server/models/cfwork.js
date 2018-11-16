@@ -6,9 +6,8 @@
  *
  */
 
-module.exports = function Model(we) {
-  // set sequelize model define and options
-  var model = {
+module.exports = function CfWorkModel(we) {
+  const model = {
     definition: {
       title: { type: we.db.Sequelize.STRING(1500), allowNull: false },
       author: { type: we.db.Sequelize.STRING(1500), allowNull: false },

@@ -1,10 +1,10 @@
 /**
- * Plugin.js file, set configs, routes, hooks and events here
+ * Event simple work plugin main file
  *
  * see http://wejs.org/docs/we/extend.plugin
  */
-module.exports = function loadPlugin(projectPath, Plugin) {
-  var plugin = new Plugin(__dirname);
+module.exports = function (projectPath, Plugin) {
+  const plugin = new Plugin(__dirname);
 
   plugin.setResource({
     parent: 'event',

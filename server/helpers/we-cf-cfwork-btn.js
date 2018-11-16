@@ -12,9 +12,9 @@ module.exports = function(we) {
       return '';
     }
 
-    var __ = (opts.hash.__ || we.i18n.__);
+    let __ = (opts.hash.__ || we.i18n.__);
 
-    var ctx = {
+    let ctx = {
       btnClass: (opts.hash.class || ' btn btn-default ') + ' btn-cfwork ',
       href: '/login?redirectTo=/event/'+opts.hash.event.id,
       text: __('cfwork.btn.text'),
