@@ -6,6 +6,10 @@
 module.exports = function (projectPath, Plugin) {
   const plugin = new Plugin(__dirname);
 
+  plugin.setConfigs({
+
+  });
+
   plugin.setResource({
     parent: 'event',
     name: 'cfwork',
@@ -34,7 +38,7 @@ module.exports = function (projectPath, Plugin) {
       onlyAccepted  : true
     },
 
-    'get /event/:eventId([0-9]+)/admin/cfwork.csv': {
+    'get /event/:eventId([0-9]+)/admin/cfwork-exports.csv': {
       layoutName    : 'eventAdmin',
       controller    : 'cfwork',
       action        : 'exportAll',
