@@ -41,16 +41,26 @@ module.exports = {
       .create(req.body)
       .then(function afterCreate(record) {
         res.locals.data = record;
+        const user = req.user;
 
-        let user = req.user.toJSON();
+        let appName = we.config.appName;
+
+        if (we.systemSettings && we.systemSettings.siteName) {
+          appName = we.systemSettings.siteName;
+        }
+
         let templateVariables = {
-          user: user,
-          event: res.locals.event,
-          cfwork: record,
-          site: {
-            name: we.config.appName,
-            url: we.config.hostname
-          },
+          name: user.displayName || user.fullName,
+          email: user.email,
+
+          eventId: res.locals.event.id,
+          eventTitle: res.locals.event.title,
+          eventAbbreviation: res.locals.event.abbreviation,
+
+          siteName: appName,
+          siteUrl: we.config.hostname,
+          cfworkTitle: record.title,
+
           cfworkUrl: we.router.urlTo(
             'cfwork.findOne', [
               res.locals.event.id,
@@ -64,11 +74,15 @@ module.exports = {
               record.id
             ], we
           ),
+
+          user: user,
+          event: res.locals.event,
+          cfwork: record
         };
+
         // - send emails
         we.email.sendEmail('CFNewWorkCreatorSuccess', {
           email: req.user.email,
-          subject: req.__('event.cfwork.success.email') + ' - ' + res.locals.event.abbreviation,
           replyTo: res.locals.event.title + ' <'+res.locals.event.email+'>'
         }, templateVariables, function (err , emailResp){
           if (err) we.log.error(err, emailResp);
@@ -76,11 +90,11 @@ module.exports = {
 
         we.email.sendEmail('CFNewWorkAdminSuccess', {
           email: res.locals.event.registrationManagerEmail,
-          subject: req.__('event.cfwork.success.admin.email') + ' - ' + res.locals.event.abbreviation,
           replyTo: res.locals.event.title + ' <'+res.locals.event.email+'>'
         }, templateVariables, function (err, emailResp) {
           if (err) return we.log.error(err, emailResp);
         });
+
         // continue with response ...
         return res.created();
       })
@@ -121,14 +135,24 @@ module.exports = {
         if (req.params.status !='accepted') return res.updated();
 
         let user = req.user.toJSON();
+
+        let appName = we.config.appName;
+
+        if (we.systemSettings && we.systemSettings.siteName) {
+          appName = we.systemSettings.siteName;
+        }
+
         let templateVariables = {
-          user: user,
-          event: res.locals.event,
-          cfwork: record,
-          site: {
-            name: we.config.appName,
-            url: we.config.hostname
-          },
+          name: user.displayName || user.fullName,
+          email: user.email,
+
+          eventId: res.locals.event.id,
+          eventTitle: res.locals.event.title,
+          eventAbbreviation: res.locals.event.abbreviation,
+
+          siteName: appName,
+          siteUrl: we.config.hostname,
+          cfworkTitle: record.title,
           cfworksUrl: we.config.hostname + we.router.urlTo(
             'cfwork.accepted', [ res.locals.event.id ], we
           ),
@@ -145,11 +169,14 @@ module.exports = {
               record.id
             ], we
           ),
+
+          user: user,
+          event: res.locals.event,
+          cfwork: record
         };
 
         we.email.sendEmail('CFAcceptWorkCreator', {
           email: req.user.email,
-          subject: req.__('event.cfwork.accepted.email') + ' - ' + res.locals.event.abbreviation,
           replyTo: res.locals.event.title + ' <'+res.locals.event.email+'>'
         }, templateVariables, function (err, emailResp){
           if (err) we.log.error(err, emailResp);
