@@ -1,8 +1,7 @@
-
 {
   "name": "we-plugin-event-simple-work",
   "description": "We.js plugin for add simple online registered user works",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "plugin.js",
   "scripts": {},
   "author": "Alberto Souza <contato@albertosouza.net>",
